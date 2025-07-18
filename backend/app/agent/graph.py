@@ -18,7 +18,11 @@ class AgentState(TypedDict):
 # Initialize tools and the LLM
 tools = [check_availability, book_appointment]
 tool_node = ToolNode(tools)
-model = ChatGoogleGenerativeAI(temperature=0, model="gemini-pro") 
+model = ChatGoogleGenerativeAI(
+    model="gemini-1.5-flash-latest",
+    temperature=0,
+    google_api_key=os.getenv("GEMINI_API_KEY") # This is the crucial addition
+)
 model = model.bind_tools(tools)
 
 # Define the function that determines whether to continue or not
