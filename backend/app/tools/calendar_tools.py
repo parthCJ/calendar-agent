@@ -1,5 +1,4 @@
 # backend/app/tools/calendar_tools.py
-
 import os
 import json
 from datetime import datetime, timedelta, timezone
