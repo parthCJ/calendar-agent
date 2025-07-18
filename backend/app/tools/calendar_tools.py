@@ -6,6 +6,7 @@ from datetime import datetime, timedelta, timezone
 from langchain_core.tools import tool
 from google.oauth2 import service_account
 from googleapiclient.discovery import build
+from typing import List
 
 # --- GOOGLE CALENDAR AUTHENTICATION ---
 
