@@ -14,23 +14,28 @@ SCOPES = ['https://www.googleapis.com/auth/calendar']
 CALENDAR_ID = os.getenv("GOOGLE_CALENDAR_ID", "primary")
 
 def get_calendar_service():
-    """Authenticates with the Google Calendar API and returns a service object."""
-    # Check for credentials in environment variables (for production)
-    creds_json_str = os.getenv("GOOGLE_CREDENTIALS_JSON")
-    if creds_json_str:
-        creds_json = json.loads(creds_json_str)
-        creds = service_account.Credentials.from_service_account_info(creds_json, scopes=SCOPES)
-    else:
-        # Fallback to local file (for development)
-        SERVICE_ACCOUNT_FILE = 'credentials.json'
-        if not os.path.exists(SERVICE_ACCOUNT_FILE):
-            raise FileNotFoundError(
-                "Service account credentials file not found. "
-                "Please set GOOGLE_CREDENTIALS_JSON env var or place credentials.json in the root."
-            )
-        creds = service_account.Credentials.from_service_account_file(
-            SERVICE_ACCOUNT_FILE, scopes=SCOPES)
+    """
+    Authenticates with the Google Calendar API using service account credentials
+    loaded from the GOOGLE_SERVICE_ACCOUNT_JSON environment variable.
+    """
+    # 1. Get the JSON credentials string from the environment variable
+    creds_json_str = os.getenv("GOOGLE_SERVICE_ACCOUNT_JSON")
+    if not creds_json_str:
+        raise ValueError("The GOOGLE_SERVICE_ACCOUNT_JSON environment variable is not set.")
+
+    # 2. Load the JSON string into a Python dictionary
+    try:
+        creds_info = json.loads(creds_json_str)
+    except json.JSONDecodeError:
+        raise ValueError("Failed to decode GOOGLE_SERVICE_ACCOUNT_JSON. Check its format in the .env file.")
+
+    # 3. Define the required scopes
+    SCOPES = ['https://www.googleapis.com/auth/calendar.events']
+
+    # 4. Create credentials from the dictionary
+    creds = service_account.Credentials.from_service_account_info(creds_info, scopes=SCOPES)
     
+    # 5. Build and return the service object
     service = build('calendar', 'v3', credentials=creds)
     return service
 

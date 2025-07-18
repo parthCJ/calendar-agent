@@ -6,14 +6,14 @@ WORKDIR /app
 
 # Copy the dependencies file to the working directory
 # Path is now relative to the project root
-COPY frontend/requirements.txt ./
+COPY requirements.txt ./
 
 # Install any needed dependencies specified in requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy the Streamlit app code to the container
 # Path is now relative to the project root
-COPY frontend/streamlit_app.py ./
+COPY streamlit_app.py ./
 
 # Make port 8501 available to the world outside this container
 EXPOSE 8501

@@ -7,13 +7,13 @@ FROM python:3.12-slim
 WORKDIR /code
 
 # Copy the dependencies file from the backend folder
-COPY backend/requirements.txt /code/requirements.txt
+COPY requirements.txt /code/requirements.txt
 
 # Install any needed dependencies specified in requirements.txt
 RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
 
 # Copy the content of the local src directory to the working directory
-COPY backend/app /code/app
+COPY app /code/app
 
 # Command to run the application
 CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]

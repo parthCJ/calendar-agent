@@ -8,6 +8,8 @@ from langgraph.graph import StateGraph
 from langgraph.graph.message import add_messages
 from langgraph.prebuilt import ToolNode
 from app.tools.calendar_tools import check_availability, book_appointment
+from langchain_google_genai import ChatGoogleGenerativeAI
+import os
 
 # Define the state for our graph
 class AgentState(TypedDict):
@@ -16,7 +18,7 @@ class AgentState(TypedDict):
 # Initialize tools and the LLM
 tools = [check_availability, book_appointment]
 tool_node = ToolNode(tools)
-model = ChatOpenAI(temperature=0, model="gpt-4o")
+model = ChatGoogleGenerativeAI(temperature=0, model="gemini-pro") 
 model = model.bind_tools(tools)
 
 # Define the function that determines whether to continue or not
