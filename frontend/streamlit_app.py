@@ -10,7 +10,7 @@ load_dotenv()
 
 # --- PAGE CONFIGURATION ---
 st.set_page_config(
-    page_title="TailorTalk Appointment Booker",
+    page_title="Personal Agent Appointment Booker",
     page_icon="💬",
     layout="centered"
 )
